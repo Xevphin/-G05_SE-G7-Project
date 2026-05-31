@@ -3,11 +3,14 @@
  * Tester: 
  * Description: Menu allowing the user to select between MCQ and True/False quizzes.
  */
+import java.awt.*;
+import javax.swing.*;
 
 public class MenuQuiz implements IMenuQuiz {
     
     private JFrame menuFrame;
     private Home parentHome;
+    private String userName;
 
     public MenuQuiz() {
         menuFrame = new JFrame("Select Quiz");
@@ -16,6 +19,9 @@ public class MenuQuiz implements IMenuQuiz {
         menuFrame.setLocationRelativeTo(null);
         menuFrame.setLayout(null);
         menuFrame.setBackground(new Color(245, 248, 252));
+
+        // Fixed: Applied background color to the content pane
+        menuFrame.getContentPane().setBackground(new Color(245, 248, 252));
 
         JLabel title = new JLabel("Choose Your Challenge", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 22));
@@ -41,6 +47,11 @@ public class MenuQuiz implements IMenuQuiz {
         menuFrame.add(backBtn);
 
         showMenuQuiz();
+    }
+
+    // Added to prevent Home.java from crashing
+    public void setUserName(String name) {
+        this.userName = name;
     }
 
     public void setParent(Home h) {

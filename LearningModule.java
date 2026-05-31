@@ -4,7 +4,7 @@
  * Description: Displays educational content about SDG 4 using CardLayout
  */
 import java.awt.*;
-import java.swing.*;
+import javax.swing.*;
 
 public class LearningModule implements ILearning {
 
@@ -30,10 +30,10 @@ public class LearningModule implements ILearning {
         }
 
         learningFrame.add(contentPanel);
-        showscreen();
+        showScreen();
     }
 
-    public void setParentHome(Home home) {
+    public void setParent(Home home) {
         this.parentHome = home;
     }
 

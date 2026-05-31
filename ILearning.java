@@ -8,7 +8,7 @@
 public interface ILearning {
     void createPage(String title, String content, int index);
     void showScreen();
-    void nextslide();
-    void prevslide();
+    void nextSlide();
+    void prevSlide();
     int getTotalPages();
 }

@@ -53,7 +53,7 @@ public abstract class AbstractQuizModule implements IQuiz {
     public abstract void loadQuestion(int index);
 
     @Override
-    public abstract void checkAnswer();
+    public abstract boolean checkAnswer(int selectedAnswerIndex);
 
     @Override
     public abstract void showResult();
