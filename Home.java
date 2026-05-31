@@ -488,7 +488,7 @@ public class Home {
 
             case "Quiz":
                 //Composition:Home creates QuizMenu
-                QuizMenu menu = new QuizMenu();
+                MenuQuiz menu = new MenuQuiz();
                 menu.setUserName(user.getName()); 
                 menu.setParent(this);
                 System.out.println("Navigating to QuizMenu: " + user.getName());
