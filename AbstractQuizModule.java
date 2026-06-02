@@ -46,15 +46,20 @@ public abstract class AbstractQuizModule implements IQuiz {
         }
     }
 
+    public int timeLimit() {
+        // For simplicity, we can set a fixed time limit (e.g., 30 seconds)
+        return 30; // Time limit in seconds
+    }
+
     // --- Abstract Methods (Must be filled out by child classes) ---
     
     // By leaving these abstract, we force MCQModule and TrueFalseModule to write their own logic
     @Override
-    public abstract void loadQuestion(int index);
+    public abstract void loadQuestion(int index) throws QuizNotFoundException;
 
     @Override
     public abstract boolean checkAnswer(int selectedAnswerIndex);
 
     @Override
-    public abstract void showResult();
+    public abstract void showResult() throws InvalidInputException;
 }

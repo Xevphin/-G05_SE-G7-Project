@@ -71,12 +71,12 @@ public class MenuQuiz implements IMenuQuiz {
         // Track 2 handles the actual quiz modules, so we leave comments for integration
         if (type.equals("MCQ")) {
             System.out.println("Launching MCQ Module...");
-            // MCQModule mcq = new MCQModule();
-            // mcq.start();
+            MCQModule mcq = new MCQModule();
+            mcq.setUserName(this.userName); // Pass the username to the quiz module
         } else {
             System.out.println("Launching True/False Module...");
-            // TrueFalseModule tf = new TrueFalseModule();
-            // tf.start();
+            TrueFalseModule tf = new TrueFalseModule();
+            tf.setUserName(this.userName); // Pass the username to the quiz module
         }
     }
 

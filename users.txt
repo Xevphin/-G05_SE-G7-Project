@@ -1,2 +1,5 @@
 nisa | Initial Score: 0
 home | Initial Score: 0
+rrr | Initial Score: 0
+r | Initial Score: 0
+e | Initial Score: 0
