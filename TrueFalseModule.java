@@ -11,9 +11,14 @@ public class TrueFalseModule extends AbstractQuizModule {
     private JButton nextButton;
     private String[] questions;
     private boolean[] answers;
+    private Home parentHome;
     private static final Color CLR_BG = new Color(245, 248, 252);
     private static final Color CLR_PRIMARY = new Color(30, 120, 90);
     private static final Color CLR_WHITE = Color.WHITE;
+
+    public void setParent(Home h) {
+        this.parentHome = h;
+    }
 
     public TrueFalseModule() {
         // Initialize questions and answers
