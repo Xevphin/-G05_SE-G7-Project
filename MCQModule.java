@@ -139,6 +139,9 @@ public class MCQModule extends AbstractQuizModule{
 
         saveResult("MCQ", questions.length);
 
+        QuizResultPage result = new QuizResultPage(this.userName, this.score, questions.length);
+        result.setParent(this.parentHome);
+
         double percentage = ((double) score / questions.length) * 100;
         String msg = "";
         if (percentage >= 80) {

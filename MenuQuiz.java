@@ -74,10 +74,12 @@ public class MenuQuiz implements IMenuQuiz {
             System.out.println("Launching MCQ Module...");
             MCQModule mcq = new MCQModule();
             mcq.setUserName(this.userName); // Pass the username to the quiz module
+            mcq.setParent(this.parentHome); // Pass the parent home reference to the quiz module
         } else {
             System.out.println("Launching True/False Module...");
             TrueFalseModule tf = new TrueFalseModule();
             tf.setUserName(this.userName); // Pass the username to the quiz module
+            tf.setParent(this.parentHome); // Pass the parent home reference to the quiz module
         }
     }
 

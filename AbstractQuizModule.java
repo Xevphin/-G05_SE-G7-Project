@@ -16,6 +16,7 @@ public abstract class AbstractQuizModule implements IQuiz {
     protected LocalDateTime startTime;
     protected int currentQuestion;
     protected int score;
+    protected Home parentHome; // Reference to the Home class for navigation
 
     // --- Concrete Methods (Shared by all child classes) ---
 
