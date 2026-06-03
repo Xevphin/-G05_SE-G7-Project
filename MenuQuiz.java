@@ -5,6 +5,7 @@
  */
 import java.awt.*;
 import javax.swing.*;
+import java.awt.Color;
 
 public class MenuQuiz implements IMenuQuiz {
     
