@@ -494,13 +494,13 @@ public class Home {
                 System.out.println("Navigating to QuizMenu: " + user.getName());
                 break;
 
-            case "LeaderBoard":
+            case "Leaderboard":
                 //Dependency: Home uses LeaderBoard
                 LeaderBoard lb = new LeaderBoard();
                 lb.setParent(this);
                 break;
 
-            case "HistoryPage":
+            case "History":
                 //Dependency:Home uses HistoryPage
                 HistoryPage hp = new HistoryPage(user.getName());
                 hp.setParent(this);

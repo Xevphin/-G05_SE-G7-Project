@@ -144,15 +144,6 @@ public class TrueFalseModule extends AbstractQuizModule {
         QuizResultPage result = new QuizResultPage(this.userName, this.score, questions.length);
         result.setParent(this.parentHome);
 
-        double percentage = ((double) score / questions.length) * 100;
-        String msg = "";
-        if (percentage >= 80) {
-            msg = "Excellent! You're a master!";
-        } else if (percentage >= 50) {
-            msg = "Good job! Keep practicing!";
-        } else {
-            msg = "Don't worry, try again!";
-        }   
-        JOptionPane.showMessageDialog(frame, "Your score: " + score + "\n" + msg);
+       
     }
 }

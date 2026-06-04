@@ -147,15 +147,6 @@ public class MCQModule extends AbstractQuizModule{
         QuizResultPage result = new QuizResultPage(this.userName, this.score, questions.length);
         result.setParent(this.parentHome);
 
-        double percentage = ((double) score / questions.length) * 100;
-        String msg = "";
-        if (percentage >= 80) {
-            msg = "Excellent! You're a master!";
-        } else if (percentage >= 60) {
-            msg = "Good job! Keep it up!";
-        } else {
-            msg = "Keep practicing to improve!";
-        }
-        JOptionPane.showMessageDialog(mcqFrame, "Your score: " + score + "\n" + msg);
+        
     }
 }
