@@ -1,6 +1,6 @@
 /**
  * Creator: Wan Adam
- * Tester:
+ * Tester: Qhairunnisa 106089
  * Description: Displays educational content about SDG 4 using CardLayout
  */
 import java.awt.*;
@@ -26,7 +26,7 @@ public class LearningModule implements ILearning {
 
         for (int i = 0; i < TOTAL_PAGES; i++) {
             createPage("SDG 4 Topic " + (i + 1), "Educational content for page " + (i + 1) +
-            " goes here. Quality education is the foundation to improving peopls's lives and sustainable development.", i);
+            " goes here. Quality education is the foundation to improving peoples's lives and sustainable development.", i);
         }
 
         learningFrame.add(contentPanel);
