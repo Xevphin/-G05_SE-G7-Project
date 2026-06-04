@@ -1,6 +1,10 @@
+// Creator: Abdul Rahim
+// Tester: Abdul Rahim
+// Description: Concrete class implementing the Multiple Choice Quiz logic and GUI, 
+// extending the shared AbstractQuizModule.
+
 import javax.swing.*;
 import java.awt.*;
-
 
 public class MCQModule extends AbstractQuizModule{
     private JFrame mcqFrame;

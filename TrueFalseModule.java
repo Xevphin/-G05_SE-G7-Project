@@ -1,3 +1,7 @@
+// Creator: Abdul Rahim
+// Tester: Abdul Rahim
+// Description: Concrete class implementing the True/False Quiz logic and GUI, extending the shared AbstractQuizModule.
+
 import javax.swing.*;
 import java.awt.*;
 

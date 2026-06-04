@@ -1,8 +1,7 @@
-/**
- * Creator: Wan Adam
- * Tester: 
- * Description: Menu allowing the user to select between MCQ and True/False quizzes.
- */
+// Creator: Wan Adam and Abdul Rahim
+// Tester: Abdul Rahim
+// Description: Menu allowing the user to select between MCQ and True/False quizzes.
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.Color;

@@ -6,14 +6,12 @@ import java.io.IOException;
 import javax.swing.Timer;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.Color;
 
-/**
-  Creator: Abdul Rahim and Wan Adam
-  Tester: Abdul Rahim
-  Description: Abstract parent class managing shared quiz logic, timer, and file storage.
- */
+// Creator: Abdul Rahim and Wan Adam
+// Tester: Abdul Rahim
+// Description: Abstract parent class managing shared quiz logic, timer, and file storage.
+
 public abstract class AbstractQuizModule implements IQuiz {
     
     // Protected so child classes (MCQModule, TrueFalseModule) can access them directly
