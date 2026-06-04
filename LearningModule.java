@@ -51,19 +51,41 @@ public class LearningModule implements ILearning {
 
         // 2. The Poster (Image)
         // We look for an image named "poster0.png", "poster1.png", etc., based on the page index.
+        int textY = 230;       // Default text starting position
+        int textHeight = 250;  // Default text height
+
         try {
-            String imagePath = "poster" + index + ".png"; 
+            String imagePath = "poster" + index + ".jpeg"; // Ensure this matches your file type
             ImageIcon originalIcon = new ImageIcon(imagePath);
             
-            // Check if the image actually exists before trying to draw it
             if (originalIcon.getIconWidth() > 0) {
-                // Scale the image to fit the screen nicely
-                Image scaledImg = originalIcon.getImage().getScaledInstance(280, 160, Image.SCALE_SMOOTH);
+                int origW = originalIcon.getIconWidth();
+                int origH = originalIcon.getIconHeight();
+                
+                // Calculate new height while maintaining the original aspect ratio!
+                int targetW = 280;
+                int targetH = (origH * targetW) / origW;
+
+                // Safety cap: If they upload a super tall portrait image, restrict it to 200px 
+                // so it doesn't push the text completely off the bottom of the screen.
+                if (targetH > 200) {
+                    targetH = 200;
+                    targetW = (origW * targetH) / origH; 
+                }
+
+                Image scaledImg = originalIcon.getImage().getScaledInstance(targetW, targetH, Image.SCALE_SMOOTH);
+                
+                // Center the image nicely in the middle of the screen
+                int xOffset = 35 + ((280 - targetW) / 2); 
+                
                 JLabel imageLabel = new JLabel(new ImageIcon(scaledImg));
-                imageLabel.setBounds(35, 60, 280, 160);
+                imageLabel.setBounds(xOffset, 60, targetW, targetH);
                 page.add(imageLabel);
+
+                // Dynamically push the text down based on how tall the image actually is
+                textY = 60 + targetH + 15; 
+                textHeight = 490 - textY; // Fill the remaining space above the buttons
             } else {
-                // If no image is found, show a placeholder box
                 JLabel placeholder = new JLabel("[ Poster Image Space ]", SwingConstants.CENTER);
                 placeholder.setBounds(35, 60, 280, 160);
                 placeholder.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -73,14 +95,15 @@ public class LearningModule implements ILearning {
             System.out.println("Image missing for page " + index);
         }
 
-        // 3. The Text Area (Pushed down to y=230 to make room for the poster)
+        // 3. The Text Area 
         JTextArea textArea = new JTextArea(content);
         textArea.setWrapStyleWord(true);
         textArea.setLineWrap(true);
         textArea.setEditable(false);
+        textArea.setFocusable(false); // Pro-tip: This hides that weird blinking text cursor!
         textArea.setBackground(new Color(245, 248, 252));
         textArea.setFont(new Font("Arial", Font.PLAIN, 14));
-        textArea.setBounds(35, 230, 280, 250);
+        textArea.setBounds(35, textY, 280, textHeight); // Uses dynamic positioning
         page.add(textArea);
 
         // 4. Navigation Buttons
