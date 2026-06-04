@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Color;
 
 public class TrueFalseModule extends AbstractQuizModule {
     private JFrame frame;
@@ -21,18 +20,52 @@ public class TrueFalseModule extends AbstractQuizModule {
     }
 
     public TrueFalseModule() {
-        // Initialize questions and answers
+        // Initialize 30 SDG 4 Questions and their corresponding True/False answers
         questions = new String[] {
-            "The Earth is flat.",
-            "The Sun is a star.",
-            "Water boils at 100 degrees Celsius."
+            //Theoretical Concepts
+            "1. SDG 4 aims to provide free, equitable, and quality primary and secondary education for all children.",
+            "2. The SDG 4 framework states that quality early childhood education has no measurable impact on a child's primary school readiness.",
+            "3. Technical and Vocational Education and Training (TVET) includes tertiary-level university degrees as well as trade skills training.",
+            "4. Target 4.4 focuses strictly on preparing students for academic research careers rather than entrepreneurship.",
+            "5. Promoting gender equality in education requires eliminating barriers for both boys and girls across all learning levels.",
+            "6. Functional numeracy means a person can perform advanced calculus and algebraic equations without a calculator.",
+            "7. Education for Sustainable Development (ESD) includes teaching students about climate change, human rights, and global citizenship.",
+            "8. Under SDG 4, school infrastructure only needs to be updated for digital technology, ignoring physical accessibility.",
+            "9. A core objective of Target 4.c is to increase the global supply of qualified and professionally trained teachers.",
+            "10. Global citizenship education teaches students to prioritize isolated national interests over interconnected global community goals.",
+            "11. Educational equity means providing identical resources to every student regardless of their economic background or learning disabilities.",
+            "12. Universal youth literacy is one of the explicit target benchmarks tracked under the UN SDG 4 framework.",
+            "13. Vocational training streams are designed to replace secondary school literacy tracks entirely.",
+            "14. The international expansion of student scholarships is primarily intended to benefit least developed countries (LDCs).",
+            "15. Inclusive classroom policies mean that specialized support is only given to students living in wealthy urban centers.",
+            
+            //Practical Applications
+            "16. Building a preschool in a rural village to teach children basic social skills before they turn six applies Target 4.2.",
+            "17. If a community college offers a free 3-month basic coding certificate for unemployed youth, it is practically applying TVET frameworks.",
+            "18. Rewriting local history textbooks to remove outdated gender biases against women applies school infrastructure metrics instead of equity metrics.",
+            "19. Teaching adult marketplace vendors how to calculate profit margins and read supply receipts is a practical application of functional literacy and numeracy.",
+            "20. A school group starting an active campus composting program is a practical execution of Education for Sustainable Development.",
+            "21. Installing a wheelchair elevator next to a school's main staircase addresses Target 4.a regarding safe, inclusive, and accessible learning environments.",
+            "22. Providing a full-tuition scholarship for a student from a small developing island nation to study medicine abroad fulfills an international cooperation target.",
+            "23. Mandating that all public school teachers complete an annual workshop on interactive online learning tools addresses teacher qualification metrics.",
+            "24. Organizing free night-classes at a community center for adults who never learned to read or write addresses early childhood development goals.",
+            "25. A tech company offering free mentorship programs for young women building tech startups directly supports skills acquisition for entrepreneurship.",
+            "26. Distributing free braille textbooks to low-income blind students across a district is an example of ensuring equitable access for vulnerable groups.",
+            "27. A school board that ignores bullying and cyberbullying complaints on its formal portal is successfully maintaining a safe learning environment.",
+            "28. A primary school using mathematical games involving counting physical coins is a practical method to improve youth numeracy.",
+            "29. Funding an exchange program for Malaysian instructors to learn new teaching methodologies in Canada supports international cooperation for teacher training.",
+            "30. Providing free school bus services to remote indigenous settlements ensures equitable secondary education access for vulnerable populations."
         };
 
-        answers = new boolean[] {false, true, true}; // Correct answers
+        // Matching boolean answers array
+        answers = new boolean[] {
+            true, false, true, false, true, false, true, false, true, false, false, true, false, true, false, // Q1 - Q15
+            true, true, false, true, true, true, true, true, false, true, true, false, true, true, true      // Q16 - Q30
+        };
 
-        // Setup GUI components (not fully implemented here)
+        // Setup GUI components
         frame = new JFrame("True/False Quiz");
-        frame.setSize(360, 240);
+        frame.setSize(380, 640);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setBackground(CLR_BG);
@@ -42,6 +75,15 @@ public class TrueFalseModule extends AbstractQuizModule {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setBackground(CLR_BG);
 
+        // Timer Label
+        timerLabel = new JLabel("⏳Time Left: " + timeLimit() + "s");
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        timerLabel.setForeground(CLR_PRIMARY);
+        timerLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(timerLabel);
+        panel.add(Box.createVerticalStrut(15));
+
+        // Question Area
         questionArea = new JTextArea();
         questionArea.setLineWrap(true);
         questionArea.setWrapStyleWord(true);
@@ -117,11 +159,10 @@ public class TrueFalseModule extends AbstractQuizModule {
         });
 
         frame.setVisible(true);
-        startTimer();
 
         
 
-        // Add components to frame and set layout (not fully implemented here)
+        // Add components to frame and set layout
     }
     
     public void loadQuestion(int index) throws QuizNotFoundException {
@@ -137,6 +178,11 @@ public class TrueFalseModule extends AbstractQuizModule {
     }
     
     public void showResult() throws InvalidInputException {
+
+        if (this.quizTimer != null)
+        {
+            this.quizTimer.stop(); // Stop the timer when showing results
+        }
         frame.dispose();
 
         saveResult("True/False", questions.length);

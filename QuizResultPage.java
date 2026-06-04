@@ -15,8 +15,8 @@ public class QuizResultPage implements IResultDisplay {
     private String userName;        
     private int    totalQuestion;   
 
-    private int    score;
-    private Home   parent; // back navigation reference to Home
+    private int score;
+    private Home parent; // back navigation reference to Home
 
     //Data storage file
     private static final String DATA_FILE = "users.txt";

@@ -3,10 +3,15 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
+import javax.swing.Timer;
+import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Color;
 
 /**
-  Creator: 
-  Tester: 
+  Creator: Abdul Rahim and Wan Adam
+  Tester: Abdul Rahim
   Description: Abstract parent class managing shared quiz logic, timer, and file storage.
  */
 public abstract class AbstractQuizModule implements IQuiz {
@@ -17,6 +22,9 @@ public abstract class AbstractQuizModule implements IQuiz {
     protected int currentQuestion;
     protected int score;
     protected Home parentHome; // Reference to the Home class for navigation
+    protected Timer quizTimer; // Timer for the quiz
+    protected JLabel timerLabel;
+    protected int timeLeft;
 
     // --- Concrete Methods (Shared by all child classes) ---
 
@@ -27,6 +35,37 @@ public abstract class AbstractQuizModule implements IQuiz {
     public void startTimer() {
         this.startTime = LocalDateTime.now();
         System.out.println("Timer started for " + this.userName);
+
+        this.timeLeft = timeLimit(); // Initialize time left based on the defined time limit
+
+        if (timerLabel != null) {
+            timerLabel.setText("⏳Time Left: " + formatTime(timeLeft));
+        }
+
+        quizTimer = new Timer(1000, e -> {
+            timeLeft--;
+            if (timerLabel != null) {
+                timerLabel.setText("⏳Time Left: " + formatTime(timeLeft));
+            }
+
+            if (timeLeft <= 10){
+                timerLabel.setForeground(Color.RED); // Change color to red when time is running out
+            }
+
+            if (timeLeft <= 0) {
+            // Time's up - stop the timer and show results
+            quizTimer.stop();
+            JOptionPane.showMessageDialog(null, "Time's up! Your quiz has ended.", "Time Up", JOptionPane.INFORMATION_MESSAGE);
+            try {
+                showResult();
+            } catch (InvalidInputException ex) {
+                System.out.println("Error showing result: " + ex.getMessage());
+            }
+        }
+        });
+
+        quizTimer.setRepeats(true); // Ensure the timer repeats every second
+        quizTimer.start();
     }
 
     // Handles the Data Storage rubric requirement (Writing to a text file)
@@ -48,11 +87,15 @@ public abstract class AbstractQuizModule implements IQuiz {
     }
 
     public int timeLimit() {
-        // For simplicity, we can set a fixed time limit (e.g., 30 seconds)
-        return 30; // Time limit in seconds
+        // For simplicity, we can set a fixed time limit (e.g., 1800 seconds)
+        return 1800; // Time limit in seconds
     }
 
-    // --- Abstract Methods (Must be filled out by child classes) ---
+    private String formatTime(int seconds) { // Helper method to format time in MM:SS
+        int mins = seconds / 60;
+        int secs = seconds % 60;
+        return String.format("%02d:%02d", mins, secs);
+    }
     
     // By leaving these abstract, we force MCQModule and TrueFalseModule to write their own logic
     @Override
