@@ -46,13 +46,13 @@ public class LearningModule implements ILearning {
         JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titleLabel.setForeground(new Color(30, 120, 90));
-        titleLabel.setBounds(20, 20, 300, 30);
+        titleLabel.setBounds(20, 15, 320, 35);
         page.add(titleLabel);
 
         // 2. The Poster (Image)
         // We look for an image named "poster0.png", "poster1.png", etc., based on the page index.
-        int textY = 230;       // Default text starting position
-        int textHeight = 250;  // Default text height
+        int textY = 370;       // Default text starting position
+        int textHeight = 170;  // Default text height
 
         try {
             String imagePath = "poster" + index + ".jpeg"; // Ensure this matches your file type
@@ -63,31 +63,31 @@ public class LearningModule implements ILearning {
                 int origH = originalIcon.getIconHeight();
                 
                 // Calculate new height while maintaining the original aspect ratio!
-                int targetW = 280;
+                int targetW = 320;
                 int targetH = (origH * targetW) / origW;
 
                 // Safety cap: If they upload a super tall portrait image, restrict it to 200px 
                 // so it doesn't push the text completely off the bottom of the screen.
-                if (targetH > 200) {
-                    targetH = 200;
+                if (targetH > 380) {
+                    targetH = 380;
                     targetW = (origW * targetH) / origH; 
                 }
 
                 Image scaledImg = originalIcon.getImage().getScaledInstance(targetW, targetH, Image.SCALE_SMOOTH);
                 
                 // Center the image nicely in the middle of the screen
-                int xOffset = 35 + ((280 - targetW) / 2); 
+                int xOffset = (360 - targetW) / 2;
                 
                 JLabel imageLabel = new JLabel(new ImageIcon(scaledImg));
-                imageLabel.setBounds(xOffset, 60, targetW, targetH);
+                imageLabel.setBounds(xOffset, 58, targetW, targetH);
                 page.add(imageLabel);
 
                 // Dynamically push the text down based on how tall the image actually is
-                textY = 60 + targetH + 15; 
-                textHeight = 490 - textY; // Fill the remaining space above the buttons
+                textY = 58 + targetH + 12; 
+                textHeight = 545 - textY; // Fill the remaining space above the buttons
             } else {
                 JLabel placeholder = new JLabel("[ Poster Image Space ]", SwingConstants.CENTER);
-                placeholder.setBounds(35, 60, 280, 160);
+                placeholder.setBounds(25, 58, 310, 200);
                 placeholder.setBorder(BorderFactory.createLineBorder(Color.GRAY));
                 page.add(placeholder);
             }
@@ -102,18 +102,18 @@ public class LearningModule implements ILearning {
         textArea.setEditable(false);
         textArea.setFocusable(false); // Pro-tip: This hides that weird blinking text cursor!
         textArea.setBackground(new Color(245, 248, 252));
-        textArea.setFont(new Font("Arial", Font.PLAIN, 14));
-        textArea.setBounds(35, textY, 280, textHeight); // Uses dynamic positioning
+        textArea.setFont(new Font("Arial", Font.PLAIN, 13));
+        textArea.setBounds(25, textY, 310, Math.max(textHeight, 40)); // Uses dynamic positioning
         page.add(textArea);
 
         // 4. Navigation Buttons
         JButton prevBtn = new JButton("Previous");
-        prevBtn.setBounds(20, 500, 100, 40);
+        prevBtn.setBounds(20, 555, 100, 40);
         prevBtn.addActionListener(e -> prevSlide());
         page.add(prevBtn);
 
         JButton nextBtn = new JButton(index == TOTAL_PAGES - 1 ? "Finish" : "Next");
-        nextBtn.setBounds(220, 500, 100, 40);
+        nextBtn.setBounds(230, 555, 100, 40);
         nextBtn.addActionListener(e -> nextSlide());
         page.add(nextBtn);
 

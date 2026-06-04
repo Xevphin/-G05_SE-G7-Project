@@ -2,7 +2,12 @@ User: r | Type: MCQ | Score: 2/3
 User: e | Type: True/False | Score: 2/3
 User: e | Type: MCQ | Score: 0/3
 User: r | Type: MCQ | Score: 2/3
+<<<<<<< Updated upstream
 User: r | Type: MCQ | Score: 0/3
 User: r | Type: MCQ | Score: 0/3
 User: r | Type: MCQ | Score: 2/3
 User: r | Type: MCQ | Score: 4/30
+=======
+User: nisa | Type: MCQ | Score: 3/3
+User: jj | Type: MCQ | Score: 3/3
+>>>>>>> Stashed changes
