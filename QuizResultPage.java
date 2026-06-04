@@ -1,6 +1,6 @@
 //QuizResultPage class
 //Creator: Qhairunnisa 106089
-//Tester:
+//Tester: Abdul Rahim 102368
 
 import java.awt.*;
 import java.io.*;
@@ -31,14 +31,15 @@ public class QuizResultPage implements IResultDisplay {
     private static final Color CLR_GOLD    = new Color(218, 165, 32);
     private static final Color CLR_SILVER  = new Color(150, 150, 150);
 
-    ///Fonts
+    //Fontss
     private static final Font FONT_TITLE  = new Font("Arial", Font.BOLD, 20);
     private static final Font FONT_SCORE  = new Font("Arial", Font.BOLD, 48);
     private static final Font FONT_SUB    = new Font("Arial", Font.PLAIN, 13);
-    private static final Font FONT_MSG    = new Font("Arial", Font.BOLD, 15);
     private static final Font FONT_SMALL  = new Font("Arial", Font.PLAIN, 11);
-    private static final Font FONT_BTN    = new Font("Arial", Font.BOLD, 13);
-    private static final Font FONT_STARS  = new Font("Arial", Font.PLAIN, 28);
+    
+    private static final Font FONT_MSG    = new Font("Segoe UI Emoji", Font.BOLD, 15);
+    private static final Font FONT_BTN    = new Font("Segoe UI Emoji", Font.BOLD, 13);
+    private static final Font FONT_STARS  = new Font("Segoe UI Symbol", Font.PLAIN, 28);
 
     //QuizResultPage class
     // Constructor — called by MCQModule and TrueFalseModule after quiz ends
@@ -116,7 +117,7 @@ public class QuizResultPage implements IResultDisplay {
 
         panel.add(scoreCard);
 
-        //5-tier motivational messages 
+        // motivational messages 
         JPanel msgCard = makeCard(30, 274, 300, 70);
 
         String msg = getMotivationalMessage(score, totalQuestion); 
@@ -139,7 +140,7 @@ public class QuizResultPage implements IResultDisplay {
 
         String badge = getBadge(pct);
         JLabel badgeLbl = new JLabel(badge, SwingConstants.CENTER);
-        badgeLbl.setFont(new Font("Arial", Font.BOLD, 14));
+        badgeLbl.setFont(new Font("Segoe UI Emoji", Font.BOLD, 14));
         badgeLbl.setForeground(CLR_PRIMARY);
         badgeLbl.setBounds(0, 28, 300, 36);
         badgeCard.add(badgeLbl);
@@ -248,7 +249,7 @@ public class QuizResultPage implements IResultDisplay {
     }
 
     // PRIVATE HELPERS — used internally for UI
-    // Returns star string based on percentage — gamification 
+    // Returns star string based on percentage
     private String getStars(double pct) {
         if (pct >= 80) return "★★★★★";
         if (pct >= 60) return "★★★★☆";
@@ -271,7 +272,7 @@ public class QuizResultPage implements IResultDisplay {
         if (pct >= 80) return new Color(20, 130, 80);   // green
         if (pct >= 60) return new Color(30, 100, 180);  // blue
         if (pct >= 40) return new Color(180, 130, 0);   // amber
-        return new Color(180, 60, 60);                   // red
+        return new Color(180, 60, 60);                  // red
     }
 
     // White rounded card panel

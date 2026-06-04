@@ -11,3 +11,5 @@ User: r | Type: MCQ | Score: 4/30
 User: nisa | Type: MCQ | Score: 3/3
 User: jj | Type: MCQ | Score: 3/3
 >>>>>>> Stashed changes
+User: nisa | Type: True/False | Score: 18/30
+User: nisa | Type: True/False | Score: 22/30
