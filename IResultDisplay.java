@@ -2,7 +2,7 @@
 //// Used by: MCQModule, TrueFalseModule (they call showResult after quiz ends)
 
 // Creator: Qhairunnisa 106089
-// Tester: 
+// Tester: Wan Adam 103014
 
 public interface IResultDisplay {
 

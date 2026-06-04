@@ -1,6 +1,6 @@
 /**
- * Creator: Wan Adam
- * Tester:
+ * Creator: Wan Adam 103014
+ * Tester: Wan Adam 103014
  * Description: Interface defining the methods for a learning module, 
  * including creating pages, displaying the screen, navigating through slides, and getting the total number of pages.
  */
