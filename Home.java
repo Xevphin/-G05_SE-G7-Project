@@ -90,7 +90,7 @@ class User implements IUser {
         if (score >= 18) return "🏆 Quiz Champion";
         if (score >= 10) return "⭐ Rising Star";
         if (score >= 5)  return "📚 Learner";
-        return "🌱 Beginner";
+        return "Beginner";
     }
 
     // Navigation handled by StartHome (composition)
@@ -317,7 +317,7 @@ public class Home {
     // Shown when loadUser() returns false (first-time user)
     private JPanel newUserPanel() {
         JPanel panel = createBasePanel();
-        panel.add(makeGreenHeader("Welcome! 🎉", "New adventurer detected"));
+        panel.add(makeGreenHeader("Welcome!", "New adventurer detected"));
 
         JPanel card = makeCard(30, 200, 300, 220);
 
@@ -357,7 +357,7 @@ public class Home {
     // Shown when loadUser() returns true (returning user)
     private JPanel welcomeBackPanel() {
         JPanel panel = createBasePanel();
-        panel.add(makeGreenHeader("Welcome Back! 👋", "Continuing your journey"));
+        panel.add(makeGreenHeader("Welcome Back!", "Continuing your journey"));
 
         JPanel card = makeCard(30, 200, 300, 220);
 
@@ -401,7 +401,7 @@ public class Home {
         header.setBackground(CLR_PRIMARY);
         header.setBounds(0, 0, 360, 140);
 
-        greetingLabel = new JLabel("Hi, User 👋", SwingConstants.CENTER);
+        greetingLabel = new JLabel("Hi, User", SwingConstants.CENTER);
         greetingLabel.setFont(FONT_TITLE);
         greetingLabel.setForeground(CLR_WHITE);
         greetingLabel.setBounds(0, 24, 360, 32);
@@ -523,7 +523,7 @@ public class Home {
     // Called after login (new or returning user)
     private void updateHomeLabels() {
         if (greetingLabel != null)
-            greetingLabel.setText("Hi, " + user.getName() + " 👋"); 
+            greetingLabel.setText("Hi, " + user.getName()); 
         if (badgeLabel != null)
             badgeLabel.setText(user.getBadge());                     
         if (scoreLabel != null)
