@@ -1,20 +1,25 @@
 // Creator: Abdul Rahim
 // Tester: Abdul Rahim
-// Description: Concrete class implementing the Multiple Choice Quiz logic and GUI, 
-// extending the shared AbstractQuizModule.
+// Description: Concrete class implementing the Multiple Choice Quiz logic, GUI, and bidirectional question navigation.
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
-public class MCQModule extends AbstractQuizModule{
+public class MCQModule extends AbstractQuizModule {
     private JFrame mcqFrame;
     private JTextArea questionArea;
     private JRadioButton[] options;
     private ButtonGroup group;
     private JButton nextButton;
+    private JButton prevButton; // 🌟 Added Previous Button component
     private String[] questions;
     private String[][] choices;
     private int[] answers;
+    
+    // 🌟 Added tracker array to store user selection histories (-1 means unselected)
+    private int[] userSelections; 
+    
     private Home parentHome;
     private static final Color CLR_BG = new Color(245, 248, 252);
     private static final Color CLR_PRIMARY = new Color(30, 120, 90); 
@@ -25,8 +30,8 @@ public class MCQModule extends AbstractQuizModule{
     }
 
     public MCQModule() {
+        // --- Questions & Choices Arrays Left Intact to Preserve Dataset ---
         questions = new String[] {
-            //Theoretical Concepts
             "1. What is the primary overarching goal of UN Sustainable Development Goal 4 (SDG 4)?",
             "2. Under the SDG 4 framework, free primary and secondary education must be:",
             "3. Why does SDG 4 place a heavy emphasis on early childhood development and pre-primary education?",
@@ -42,8 +47,6 @@ public class MCQModule extends AbstractQuizModule{
             "13. Global citizenship education targets teaching students to see themselves as:",
             "14. What does the term 'vulnerable populations' refer to in inclusive classroom policies?",
             "15. International scholarship funding expansions are designed to assist students from:",
-            
-            //Practical Applications
             "16. A local NGO provides text-to-speech tools for blind students in a village. This directly promotes:",
             "17. A rural town builds a new pre-primary center so children can learn social skills. Which target is this implementing?",
             "18. A community college designs a 6-month certified welding program to help unemployed youths. This applies:",
@@ -62,48 +65,50 @@ public class MCQModule extends AbstractQuizModule{
         };
 
         choices = new String[][] {
-            {"To focus on digital literacy", "To ensure inclusive, equitable, and quality education", "To eliminate university fees", "To mandate standardized testing"}, // Q1 - Ans: 1 (B)
-            {"Highly selective and merit-based", "Restricted to vocational subjects", "Equitable, quality, and publicly funded", "Accessible only to urban citizens"}, // Q2 - Ans: 2 (C)
-            {"To establish cognitive and social foundations early", "To shorten primary school years", "To lower national employment metrics", "To enforce coding before age five"}, // Q3 - Ans: 0 (A)
-            {"Educational Monopolization", "Vocational Stratification", "Segregated Learning Portals", "Higher Education Accessibility"}, // Q4 - Ans: 3 (D)
-            {"Basic memory retention skills", "Advanced athletic capabilities", "Relevant technical and vocational skills", "Historic linguistic proficiencies"}, // Q5 - Ans: 2 (C)
-            {"Primary education only", "All levels of education and vocational training", "Higher university levels only", "Non-formal adult streams only"}, // Q6 - Ans: 1 (B)
-            {"Recite historic literature by memory", "Write syntax in multiple languages", "Apply reading, writing, and math to daily life", "Pass an advanced calculus board"}, // Q7 - Ans: 2 (C)
-            {"Climate change, human rights, and citizenship", "Local corporate accounting", "Abstract algorithmic models", "Isolated historical structures"}, // Q8 - Ans: 0 (A)
-            {"Incorporating strict punitive codes", "Offering child-sensitive, disability-accessible, secure spaces", "Maximizing class sizes to cut costs", "Relying entirely on remote digital feeds"}, // Q9 - Ans: 1 (B)
-            {"Increasing student-to-teacher ratios", "Lowering entry standards for instructors", "Expanding the supply of qualified, trained teachers", "Removing development workshops"}, // Q10 - Ans: 2 (C)
-            {"Identically to everyone regardless of background", "According to needs of diverse, marginalized learners", "Based on school athletic performance", "Exclusively to high-performing urban districts"}, // Q11 - Ans: 1 (B)
-            {"Purely historical and philosophical theory", "Standardized classical language memorization", "Abstract fine arts historical critique", "Practical, job-specific skills and competency"}, // Q12 - Ans: 3 (D)
-            {"Active contributors to an interconnected society", "Members of an isolated local economy", "Passive observers of human rights shifts", "Workforce units with no environmental duties"}, // Q13 - Ans: 0 (A)
-            {"Only students from wealthy urban sectors", "Students who bypass graduation tracks", "Persons with disabilities, indigenous peoples, and poor children", "Instructors without state certificates"}, // Q14 - Ans: 2 (C)
-            {"Developed economic superpowers exclusively", "Developing nations, especially least developed countries", "Private high schools with high internal budgets", "Research institutions located in capitals"}, // Q15 - Ans: 1 (B)
-            {"Academic standardization", "Vocational stratification", "Inclusive learning infrastructure", "International curriculum migration"}, // Q16 - Ans: 2 (C)
-            {"Early Childhood Development and Care Foundations", "Higher Education Cooperation", "Technical Skills Entrepreneurship", "Adult Literacy Competency Tracks"}, // Q17 - Ans: 0 (A)
-            {"Abstract Classical Education", "Macro-Economic Development Theory", "General Secondary Literacy Mapping", "Technical and Vocational Skills Acquisition"}, // Q18 - Ans: 3 (D)
-            {"Infrastructure design layouts", "Gender bias and inequality in learning materials", "Numerical data tracking metrics", "International study scholarship allocations"}, // Q19 - Ans: 1 (B)
-            {"Theoretical global citizenship indices", "Functional literacy and numeracy proficiencies", "Pre-primary cognitive baseline testing", "Advanced tertiary degree infrastructure"}, // Q20 - Ans: 1 (B)
-            {"Technical vocational programming", "Basic primary education equity metrics", "Education for Sustainable Development", "Teacher training supply line management"}, // Q21 - Ans: 2 (C)
-            {"Target 4.5: Gender Equalization", "Target 4.c: Qualified Teacher Supply lines", "Target 4.a: Safe and Inclusive Learning Environments", "Target 4.2: Pre-primary Framework Foundations"}, // Q22 - Ans: 2 (C)
-            {"Local industrial tax compliance rules", "Expanding global scholarship pools", "Non-formal primary literacy adjustments", "Teacher compensation adjustments"}, // Q23 - Ans: 1 (B)
-            {"Primary infrastructure funding", "Professional teacher training and qualification metrics", "Vocational entrepreneurship capital tracking", "Universal child registration mandates"}, // Q24 - Ans: 1 (B)
-            {"Curriculum standard integration", "Lowering classroom operational costs", "Increasing global scholarship rates", "Ensuring equitable access for vulnerable groups"}, // Q25 - Ans: 3 (D)
-            {"Early childhood care readiness metrics", "Universal global history curriculum", "Relevant skills for employment and entrepreneurship", "Primary classroom environmental designs"}, // Q26 - Ans: 2 (C)
-            {"Universal tertiary degree standards", "Practical childhood numeracy skills", "Global sustainable development treaties", "International teacher exchange metrics"}, // Q27 - Ans: 1 (B)
-            {"TVET technical tracking metrics", "Creating non-violent, inclusive, and safe learning spaces", "Early childhood pre-primary foundations", "International scholarship tracking systems"}, // Q28 - Ans: 1 (B)
-            {"Local primary curriculum isolation", "International cooperation for teacher development and training", "Basic literacy and numeracy baseline quotas", "Private vocational student loops"}, // Q29 - Ans: 1 (B)
-            {"Early childhood development milestones", "Secondary vocational engineering specializations", "Ensuring youth and adult literacy proficiencies", "Institutional school infrastructure layout designs"}  // Q30 - Ans: 2 (C)
+            {"To focus on digital literacy", "To ensure inclusive, equitable, and quality education", "To eliminate university fees", "To mandate standardized testing"},
+            {"Highly selective and merit-based", "Restricted to vocational subjects", "Equitable, quality, and publicly funded", "Accessible only to urban citizens"},
+            {"To establish cognitive and social foundations early", "To shorten primary school years", "To lower national employment metrics", "To enforce coding before age five"},
+            {"Educational Monopolization", "Vocational Stratification", "Segregated Learning Portals", "Higher Education Accessibility"},
+            {"Basic memory retention skills", "Advanced athletic capabilities", "Relevant technical and vocational skills", "Historic linguistic proficiencies"},
+            {"Primary education only", "All levels of education and vocational training", "Higher university levels only", "Non-formal adult streams only"},
+            {"Recite historic literature by memory", "Write syntax in multiple languages", "Apply reading, writing, and math to daily life", "Pass an advanced calculus board"},
+            {"Climate change, human rights, and citizenship", "Local corporate accounting", "Abstract algorithmic models", "Isolated historical structures"},
+            {"Incorporating strict punitive codes", "Offering child-sensitive, disability-accessible, secure spaces", "Maximizing class sizes to cut costs", "Relying entirely on remote digital feeds"},
+            {"Increasing student-to-teacher ratios", "Lowering entry standards for instructors", "Expanding the supply of qualified, trained teachers", "Removing development workshops"},
+            {"Identically to everyone regardless of background", "According to needs of diverse, marginalized learners", "Based on school athletic performance", "Exclusively to high-performing urban districts"},
+            {"Purely historical and philosophical theory", "Standardized classical language memorization", "Abstract fine arts historical critique", "Practical, job-specific skills and competency"},
+            {"Active contributors to an interconnected society", "Members of an isolated local economy", "Passive observers of human rights shifts", "Workforce units with no environmental duties"},
+            {"Only students from wealthy urban sectors", "Students who bypass graduation tracks", "Persons with disabilities, indigenous peoples, and poor children", "Instructors without state certificates"},
+            {"Developed economic superpowers exclusively", "Developing nations, especially least developed countries", "Private high schools with high internal budgets", "Research institutions located in capitals"},
+            {"Academic standardization", "Vocational stratification", "Inclusive learning infrastructure", "International curriculum migration"},
+            {"Early Childhood Development and Care Foundations", "Higher Education Cooperation", "Technical Skills Entrepreneurship", "Adult Literacy Competency Tracks"},
+            {"Abstract Classical Education", "Macro-Economic Development Theory", "General Secondary Literacy Mapping", "Technical and Vocational Skills Acquisition"},
+            {"Infrastructure design layouts", "Gender bias and inequality in learning materials", "Numerical data tracking metrics", "International study scholarship allocations"},
+            {"Theoretical global citizenship indices", "Functional literacy and numeracy proficiencies", "Pre-primary cognitive baseline testing", "Advanced tertiary degree infrastructure"},
+            {"Technical vocational programming", "Basic primary education equity metrics", "Education for Sustainable Development", "Teacher training supply line management"},
+            {"Target 4.5: Gender Equalization", "Target 4.c: Qualified Teacher Supply lines", "Target 4.a: Safe and Inclusive Learning Environments", "Target 4.2: Pre-primary Framework Foundations"},
+            {"Local industrial tax compliance rules", "Expanding global scholarship pools", "Non-formal primary literacy adjustments", "Teacher compensation adjustments"},
+            {"Primary infrastructure funding", "Professional teacher training and qualification metrics", "Vocational entrepreneurship capital tracking", "Universal child registration mandates"},
+            {"Curriculum standard integration", "Lowering classroom operational costs", "Increasing global scholarship rates", "Ensuring equitable access for vulnerable groups"},
+            {"Early childhood care readiness metrics", "Universal global history curriculum", "Relevant skills for employment and entrepreneurship", "Primary classroom environmental designs"},
+            {"Universal tertiary degree standards", "Practical childhood numeracy skills", "Global sustainable development treaties", "International teacher exchange metrics"},
+            {"TVET technical tracking metrics", "Creating non-violent, inclusive, and safe learning spaces", "Early childhood pre-primary foundations", "International scholarship tracking systems"},
+            {"Local primary curriculum isolation", "International cooperation for teacher development and training", "Basic literacy and numeracy baseline quotas", "Private vocational student loops"},
+            {"Early childhood development milestones", "Secondary vocational engineering specializations", "Ensuring youth and adult literacy proficiencies", "Institutional school infrastructure layout designs"}
         };
 
-        // Scrambled Correct Answer Indices mapped to match array configurations perfectly
         answers = new int[] {
-            1, 2, 0, 3, 2, 1, 2, 0, 1, 2, 1, 3, 0, 2, 1, // Q1 - Q15
-            2, 0, 3, 1, 1, 2, 2, 1, 1, 3, 2, 1, 1, 1, 2  // Q16 - Q30
+            1, 2, 0, 3, 2, 1, 2, 0, 1, 2, 1, 3, 0, 2, 1,
+            2, 0, 3, 1, 1, 2, 2, 1, 1, 3, 2, 1, 1, 1, 2
         };
         
+        // Initialize historical selection buffer filled with -1 values
+        userSelections = new int[questions.length];
+        Arrays.fill(userSelections, -1);
+
         currentQuestion = 0;
         score = 0;
 
-        // Setup GUI components (not fully implemented here)
         mcqFrame = new JFrame("MCQ Quiz");
         mcqFrame.setSize(380, 640);
         mcqFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -115,7 +120,6 @@ public class MCQModule extends AbstractQuizModule{
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setBackground(CLR_BG);
 
-        // Initialize timer label and start the quiz timer
         timerLabel = new JLabel("⏳Time Left: " + timeLimit() + "s");
         timerLabel.setFont(new Font("Arial", Font.BOLD, 14));
         timerLabel.setForeground(CLR_PRIMARY);
@@ -123,7 +127,6 @@ public class MCQModule extends AbstractQuizModule{
         panel.add(timerLabel);
         panel.add(Box.createVerticalStrut(15));
 
-        // Question area setup
         questionArea = new JTextArea();
         questionArea.setLineWrap(true);
         questionArea.setWrapStyleWord(true);
@@ -131,7 +134,6 @@ public class MCQModule extends AbstractQuizModule{
         questionArea.setFont(new Font("Arial", Font.PLAIN, 16));
         questionArea.setAlignmentX(Component.LEFT_ALIGNMENT);
         questionArea.setBackground(CLR_BG);
-
         panel.add(questionArea);
         panel.add(Box.createVerticalStrut(20));
 
@@ -146,12 +148,25 @@ public class MCQModule extends AbstractQuizModule{
             panel.add(Box.createVerticalStrut(10));
         }
         
-        nextButton = new JButton("Next");
-        nextButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // ── Navigation Row Layout Container ───────────────────────────
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        buttonPanel.setBackground(CLR_BG);
+        buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        prevButton = new JButton("← Previous");
+        prevButton.setBackground(new Color(110, 130, 120));
+        prevButton.setForeground(CLR_WHITE);
+        prevButton.setEnabled(false); // Default disabled at index 0
+
+        nextButton = new JButton("Next →");
         nextButton.setBackground(CLR_PRIMARY);
         nextButton.setForeground(CLR_WHITE);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(nextButton);
+
+        buttonPanel.add(prevButton);
+        buttonPanel.add(Box.createHorizontalStrut(15));
+        buttonPanel.add(nextButton);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(buttonPanel);
 
         mcqFrame.getContentPane().add(panel);
 
@@ -161,6 +176,7 @@ public class MCQModule extends AbstractQuizModule{
             JOptionPane.showMessageDialog(mcqFrame, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
+        // --- Action Listeners ---
         nextButton.addActionListener(e -> {
             int selectedAnswerIndex = -1;
             for (int i = 0; i < options.length; i++) {
@@ -175,9 +191,8 @@ public class MCQModule extends AbstractQuizModule{
                 return;
             }
 
-            if (checkAnswer(selectedAnswerIndex)) {
-                score++;
-            }
+            // Cache selection state dynamically
+            userSelections[currentQuestion] = selectedAnswerIndex;
 
             currentQuestion++;
             if (currentQuestion < questions.length) {
@@ -187,8 +202,10 @@ public class MCQModule extends AbstractQuizModule{
                     JOptionPane.showMessageDialog(mcqFrame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
+                // End of quiz: compile terminal tally across history
+                calculateFinalScore();
                 try {
-                showResult();
+                    showResult();
                 } catch (InvalidInputException ex) {
                     saveResult("MCQ", questions.length);
                     mcqFrame.dispose();
@@ -196,7 +213,34 @@ public class MCQModule extends AbstractQuizModule{
             }
         });
 
+        prevButton.addActionListener(e -> {
+            if (currentQuestion > 0) {
+                // Save state before stepping backward
+                for (int i = 0; i < options.length; i++) {
+                    if (options[i].isSelected()) {
+                        userSelections[currentQuestion] = i;
+                    }
+                }
+                
+                currentQuestion--;
+                try {
+                    loadQuestion(currentQuestion);
+                } catch (QuizNotFoundException ex) {
+                    JOptionPane.showMessageDialog(mcqFrame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
         mcqFrame.setVisible(true);
+    }
+
+    private void calculateFinalScore() {
+        score = 0;
+        for (int i = 0; i < questions.length; i++) {
+            if (userSelections[i] == answers[i]) {
+                score++;
+            }
+        }
     }
 
     public void loadQuestion(int index) throws QuizNotFoundException {
@@ -204,8 +248,20 @@ public class MCQModule extends AbstractQuizModule{
             throw new QuizNotFoundException("Question index out of range.");
         }
         questionArea.setText(questions[index]);
+        group.clearSelection(); // Flush visual indicators safely
+
         for (int i = 0; i < options.length; i++) {
             options[i].setText(choices[index][i]);
+        }
+
+        // Restore state if historical node exists
+        if (userSelections[index] != -1) {
+            options[userSelections[index]].setSelected(true);
+        }
+
+        // Control bounds on the Previous button component
+        if (prevButton != null) {
+            prevButton.setEnabled(index > 0);
         }
     }
 
@@ -215,16 +271,13 @@ public class MCQModule extends AbstractQuizModule{
 
     @Override
     public void showResult() throws InvalidInputException {
-
-        if (this.quizTimer != null)
-        {
+        if (this.quizTimer != null) {
             this.quizTimer.stop();
         }
         mcqFrame.dispose();
-
         saveResult("MCQ", questions.length);
 
-        QuizResultPage result = new QuizResultPage(this.userName, this.score, questions.length);
+        QuizResultPage result = new QuizResultPage(this.userName, this.score, questions.length, "MCQ");
         result.setParent(this.parentHome);
     }
 }

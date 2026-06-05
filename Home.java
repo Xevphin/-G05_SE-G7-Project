@@ -129,31 +129,46 @@ class User implements IUser {
 
     // Load user's highest scores from files
     // Reads users.txt and calculates the highest MCQ + TrueFalse scores
+    // Reads QuizScores.txt instead of users.txt and calculates the highest MCQ + TrueFalse scores
     @Override
     public boolean loadUser() {
-        int     highestMCQScore = 0;
-        int     highestTFScore  = 0;
-        boolean userFound       = false;
+        int highestMCQScore = 0;
+        int highestTFScore  = 0;
+        boolean userFound   = false;
+        
+        // Changed source path to QuizScores.txt to match your active tracking database
+        File scoreFile = new File("QuizScores.txt");
+        if (!scoreFile.exists()) {
+            return false;
+        }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(DATA_FILE))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(scoreFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith(name + " |")) {
+                line = line.trim();
+                
+                // Ignore Git merge conflict markers safely
+                if (line.startsWith("<") || line.startsWith("=") || line.startsWith(">")) {
+                    continue;
+                }
+
+                // Verify if the score row belongs to the current active profile session
+                if (line.startsWith("User: " + name + " |")) {
                     userFound = true;
 
-                    if (line.contains("[MCQ Quiz] Score")) {
+                    // Fixed token matching to align perfectly with saveResult() parameters
+                    if (line.contains("Type: MCQ")) {
                         try {
                             String[] parts   = line.split("\\|");
-                            String scorePart = parts[1].trim().split("Score: ")[1].split("/")[0];
+                            String scorePart = parts[2].trim().replace("Score:", "").trim().split("/")[0];
                             int s            = Integer.parseInt(scorePart.trim());
                             highestMCQScore  = Math.max(highestMCQScore, s);
                         } catch (Exception ignored) {}
                     }
-
-                    else if (line.contains("[True/False Quiz] Score")) {
+                    else if (line.contains("Type: True/False") || line.contains("Type: TF")) {
                         try {
                             String[] parts   = line.split("\\|");
-                            String scorePart = parts[1].trim().split("Score: ")[1].split("/")[0];
+                            String scorePart = parts[2].trim().replace("Score:", "").trim().split("/")[0];
                             int s            = Integer.parseInt(scorePart.trim());
                             highestTFScore   = Math.max(highestTFScore, s);
                         } catch (Exception ignored) {}
@@ -161,12 +176,13 @@ class User implements IUser {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading users.txt: " + e.getMessage());
+            System.err.println("Error reading QuizScores.txt: " + e.getMessage());
             return false;
         }
 
+        // Aggregate points and update volatile cumulative totals
         this.score = highestMCQScore + highestTFScore;
-        System.out.println("Loaded " + name + "MCQ:" + highestMCQScore + "TF:"  + highestTFScore + "Total:" + this.score);
+        System.out.println("Loaded " + name + " | MCQ Max: " + highestMCQScore + " | TF Max: " + highestTFScore + " | Total: " + this.score);
         return userFound;
     }
 }

@@ -1,17 +1,3 @@
-User: r | Type: MCQ | Score: 2/3
-User: e | Type: True/False | Score: 2/3
-User: e | Type: MCQ | Score: 0/3
-User: r | Type: MCQ | Score: 2/3
-<<<<<<< Updated upstream
-User: r | Type: MCQ | Score: 0/3
-User: r | Type: MCQ | Score: 0/3
-User: r | Type: MCQ | Score: 2/3
 User: r | Type: MCQ | Score: 4/30
-=======
-User: nisa | Type: MCQ | Score: 3/3
-User: jj | Type: MCQ | Score: 3/3
->>>>>>> Stashed changes
-User: nisa | Type: True/False | Score: 18/30
-User: nisa | Type: True/False | Score: 22/30
-User: r | Type: MCQ | Score: 4/30
-User: r | Type: MCQ | Score: 12/30
+User: r | Type: MCQ | Score: 8/30
+r | Quiz Score: 8/30 | 27% | 2026-06-05 14:35
