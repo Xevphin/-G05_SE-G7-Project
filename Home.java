@@ -1,6 +1,7 @@
 //Home class, User class, IUser
 //Creator: Qhairunnisa 106089
-//Tester: Wan Adam 103014
+//Tester: Wan Adam 103014 and Abdul Rahim 102368
+
 
 import java.awt.*;
 import java.io.*;
