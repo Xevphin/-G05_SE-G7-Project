@@ -195,8 +195,4 @@ public class HistoryPage implements IHistoryDisplay {
             parent.showHomePanel();
         }
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new HistoryPage("r"));
-    }
 }
