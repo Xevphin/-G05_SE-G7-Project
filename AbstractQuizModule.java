@@ -66,38 +66,21 @@ public abstract class AbstractQuizModule implements IQuiz {
         quizTimer.start();
     }
 
-    //writes to both QuizScores.txt (leaderboard) and users.txt (home score)
-    public void saveResult(String quizType, int totalQuestion) {
-
     // Handles the Data Storage rubric requirement (Writing to a text file)
-         BufferedWriter bw = new BufferedWriter(fw);
-             PrintWriter out = new PrintWriter(bw)) {
-
-            out.println("User: " + this.userName +
-                        " | Type: " + quizType +
-                        " | Score: " + this.score + "/" + totalQuestion);
-
-            System.out.println("Score saved to QuizScores.txt.");
-
-        } 
-        catch (IOException e) {
-            System.out.println("Error saving to QuizScores.txt: " + e.getMessage());
-        }
-
-        // 2. Also save to users.txt in the format loadUser() expects
-        String quizLabel = quizType.equals("MCQ") ? "[MCQ Quiz]" : "[True/False Quiz]";
-
-        try (FileWriter fw = new FileWriter("users.txt", true);
+    public void saveResult(String quizType, int totalQuestion) {
+        // Using a try-catch block here helps build towards the Exception Handling rubric
+        try (FileWriter fw = new FileWriter("QuizScores.txt", true);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
 
-            out.println(this.userName + " | " + quizLabel +
-                        " Score: " + this.score + "/" + totalQuestion);
+            out.println("User: " + this.userName + 
+                        " | Type: " + quizType + 
+                        " | Score: " + this.score + "/" + totalQuestion);
 
-            System.out.println("Score saved to users.txt.");
+            System.out.println("Score successfully saved to database.");
 
         } catch (IOException e) {
-            System.out.println("Error saving to users.txt: " + e.getMessage());
+            System.out.println("Error saving score: " + e.getMessage());
         }
     }
 
