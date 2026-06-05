@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import java.awt.Color;
 
 // Creator: Abdul Rahim and Wan Adam
-// Tester: Abdul Rahim
+// Tester: Abdul Rahim, Qhairunnisa 106089
 // Description: Abstract parent class managing shared quiz logic, timer, and file storage.
 
 public abstract class AbstractQuizModule implements IQuiz {
@@ -72,17 +72,18 @@ public abstract class AbstractQuizModule implements IQuiz {
         try (FileWriter fw = new FileWriter("QuizScores.txt", true);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
-            
+
             out.println("User: " + this.userName + 
                         " | Type: " + quizType + 
                         " | Score: " + this.score + "/" + totalQuestion);
-            
+
             System.out.println("Score successfully saved to database.");
-            
+
         } catch (IOException e) {
             System.out.println("Error saving score: " + e.getMessage());
         }
     }
+
 
     public int timeLimit() {
         // For simplicity, we can set a fixed time limit (e.g., 1800 seconds)

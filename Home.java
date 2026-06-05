@@ -87,10 +87,10 @@ class User implements IUser {
     // Returns a badge string based on cumulative score (gamification element)
     @Override
     public String getBadge() {
-        if (score >= 18) return "images/trophy.png, Quiz Champion";
-        if (score >= 10) return "images/star.png, Rising Star";
-        if (score >= 5)  return "images/book.png, Learner";
-        return "images/sprout.png, Beginner";
+        if (score >= 18) return "🏆 Quiz Champion";
+        if (score >= 10) return "⭐ Rising Star";
+        if (score >= 5)  return "📚 Learner";
+        return "🌱 Beginner";
     }
 
     // Navigation handled by StartHome (composition)
@@ -317,7 +317,7 @@ public class Home {
     // Shown when loadUser() returns false (first-time user)
     private JPanel newUserPanel() {
         JPanel panel = createBasePanel();
-        panel.add(makeGreenHeader("Welcome! 🎉", "New adventurer detected"));
+        panel.add(makeGreenHeader("Welcome!", "New adventurer detected"));
 
         JPanel card = makeCard(30, 200, 300, 220);
 
@@ -357,7 +357,7 @@ public class Home {
     // Shown when loadUser() returns true (returning user)
     private JPanel welcomeBackPanel() {
         JPanel panel = createBasePanel();
-        panel.add(makeGreenHeader("Welcome Back! 👋", "Continuing your journey"));
+        panel.add(makeGreenHeader("Welcome Back!", "Continuing your journey"));
 
         JPanel card = makeCard(30, 200, 300, 220);
 
@@ -401,7 +401,7 @@ public class Home {
         header.setBackground(CLR_PRIMARY);
         header.setBounds(0, 0, 360, 140);
 
-        greetingLabel = new JLabel("Hi, User 👋", SwingConstants.CENTER);
+        greetingLabel = new JLabel("Hi, User", SwingConstants.CENTER);
         greetingLabel.setFont(FONT_TITLE);
         greetingLabel.setForeground(CLR_WHITE);
         greetingLabel.setBounds(0, 24, 360, 32);
@@ -524,23 +524,8 @@ public class Home {
     private void updateHomeLabels() {
         if (greetingLabel != null)
             greetingLabel.setText("Hi, " + user.getName() + " 👋"); 
-        if (badgeLabel != null){
-            String[] badgeData = user.getBadge().split(",");
-            String imgPath = badgeData[0];
-            String badgeText = badgeData[1];
-
-            badgeLabel.setText(badgeText);
-
-            File imgFile = new File(imgPath);
-            if (imgFile.exists()) {
-                ImageIcon icon = new ImageIcon(imgPath);
-                Image img = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-                badgeLabel.setIcon(new ImageIcon(img));
-                badgeLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
-            } else {
-                System.err.println("Badge image not found: " + imgPath);
-            }
-        }                   
+        if (badgeLabel != null)
+            badgeLabel.setText(user.getBadge());                     
         if (scoreLabel != null)
             scoreLabel.setText("Total Score: " + user.getScore());   
     }
