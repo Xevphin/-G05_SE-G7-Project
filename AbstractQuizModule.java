@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import java.awt.Color;
 
 // Creator: Abdul Rahim and Wan Adam
-// Tester: Abdul Rahim
+// Tester: Abdul Rahim, Qhairunnisa 106089
 // Description: Abstract parent class managing shared quiz logic, timer, and file storage.
 
 public abstract class AbstractQuizModule implements IQuiz {
@@ -66,23 +66,41 @@ public abstract class AbstractQuizModule implements IQuiz {
         quizTimer.start();
     }
 
-    // Handles the Data Storage rubric requirement (Writing to a text file)
+    //writes to both QuizScores.txt (leaderboard) and users.txt (home score)
     public void saveResult(String quizType, int totalQuestion) {
-        // Using a try-catch block here helps build towards the Exception Handling rubric
-        try (FileWriter fw = new FileWriter("QuizScores.txt", true);
+
+    // Handles the Data Storage rubric requirement (Writing to a text file)
+         BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+
+            out.println("User: " + this.userName +
+                        " | Type: " + quizType +
+                        " | Score: " + this.score + "/" + totalQuestion);
+
+            System.out.println("Score saved to QuizScores.txt.");
+
+        } 
+        catch (IOException e) {
+            System.out.println("Error saving to QuizScores.txt: " + e.getMessage());
+        }
+
+        // 2. Also save to users.txt in the format loadUser() expects
+        String quizLabel = quizType.equals("MCQ") ? "[MCQ Quiz]" : "[True/False Quiz]";
+
+        try (FileWriter fw = new FileWriter("users.txt", true);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
-            
-            out.println("User: " + this.userName + 
-                        " | Type: " + quizType + 
-                        " | Score: " + this.score + "/" + totalQuestion);
-            
-            System.out.println("Score successfully saved to database.");
-            
+
+            out.println(this.userName + " | " + quizLabel +
+                        " Score: " + this.score + "/" + totalQuestion);
+
+            System.out.println("Score saved to users.txt.");
+
         } catch (IOException e) {
-            System.out.println("Error saving score: " + e.getMessage());
+            System.out.println("Error saving to users.txt: " + e.getMessage());
         }
     }
+
 
     public int timeLimit() {
         // For simplicity, we can set a fixed time limit (e.g., 1800 seconds)
