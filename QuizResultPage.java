@@ -4,8 +4,6 @@
 
 import java.awt.*;
 import java.io.*;
-import java.time.*;
-import java.time.format.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -48,8 +46,6 @@ public class QuizResultPage implements IResultDisplay {
         resultFrame.setLocationRelativeTo(null);
 
         // Keep saveResult active
-        saveResult(userName, score);
-
         showResult(userName, score, totalQuestion);
     }
 
@@ -191,15 +187,16 @@ public class QuizResultPage implements IResultDisplay {
         return ((double) score / total) * 100.0;
     }
 
-    @Override public void saveResult(String userName, int score) {
+    @Override 
+    public void saveResult(String userName, int score) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(DATA_FILE, true))) {
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            writer.write(userName + " | Quiz Score: " + score + "/" + totalQuestion + " | " + String.format("%.0f", getScorePercent(score, totalQuestion)) + "%" + " | " + timestamp);
+            // 🌟 Standarize the string template to match your JTable's pipe-split rules
+            writer.write("User: " + userName + " | Type: " + quizType + " | Score: " + score + "/" + totalQuestion);
             writer.newLine();
-            System.out.println("Result saved for: " + userName + " score=" + score);
+            System.out.println("Result successfully saved to database for: " + userName);
         } catch (IOException e) {
             System.err.println("Error saving result for " + userName + ": " + e.getMessage());
-            JOptionPane.showMessageDialog(resultFrame, "Could not save your score. Please check file permissions.", "Save Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(resultFrame, "Could not save your score.", "Save Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

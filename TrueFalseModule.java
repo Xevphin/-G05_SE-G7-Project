@@ -99,6 +99,7 @@ public class TrueFalseModule extends AbstractQuizModule {
         questionArea.setEditable(false);
         questionArea.setFont(new Font("Arial", Font.PLAIN, 16));
         questionArea.setBackground(CLR_BG);
+        questionArea.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(questionArea);
         panel.add(Box.createVerticalStrut(20));
 
