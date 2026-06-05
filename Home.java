@@ -87,10 +87,10 @@ class User implements IUser {
     // Returns a badge string based on cumulative score (gamification element)
     @Override
     public String getBadge() {
-        if (score >= 18) return "🏆 Quiz Champion";
-        if (score >= 10) return "⭐ Rising Star";
-        if (score >= 5)  return "📚 Learner";
-        return "🌱 Beginner";
+        if (score >= 18) return "images/trophy.png, Quiz Champion";
+        if (score >= 10) return "images/star.png, Rising Star";
+        if (score >= 5)  return "images/book.png, Learner";
+        return "images/sprout.png, Beginner";
     }
 
     // Navigation handled by StartHome (composition)
@@ -524,8 +524,23 @@ public class Home {
     private void updateHomeLabels() {
         if (greetingLabel != null)
             greetingLabel.setText("Hi, " + user.getName() + " 👋"); 
-        if (badgeLabel != null)
-            badgeLabel.setText(user.getBadge());                     
+        if (badgeLabel != null){
+            String[] badgeData = user.getBadge().split(",");
+            String imgPath = badgeData[0];
+            String badgeText = badgeData[1];
+
+            badgeLabel.setText(badgeText);
+
+            File imgFile = new File(imgPath);
+            if (imgFile.exists()) {
+                ImageIcon icon = new ImageIcon(imgPath);
+                Image img = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+                badgeLabel.setIcon(new ImageIcon(img));
+                badgeLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
+            } else {
+                System.err.println("Badge image not found: " + imgPath);
+            }
+        }                   
         if (scoreLabel != null)
             scoreLabel.setText("Total Score: " + user.getScore());   
     }
