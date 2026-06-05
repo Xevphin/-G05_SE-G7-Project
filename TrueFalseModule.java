@@ -1,5 +1,5 @@
 // Creator: Abdul Rahim
-// Tester: Abdul Rahim
+// Tester: Abdul Rahim, Qhairunnisa 106089
 // Description: Concrete class implementing the True/False Quiz logic, GUI, and bidirectional question navigation.
 
 import javax.swing.*;
